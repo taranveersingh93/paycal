@@ -5,8 +5,8 @@
     --ts-dark-color: #1b1b1b;
     --ts-primary-color: hsl(210, 17%, 18%);
     --ts-secondary-color: hsl(210, 17%, 95%);
-    --ts-tertiary-color: hsl(120, 100%, 15%);
-    --ts-accent-color: hsl(120, 100%, 25%);
+    --ts-tertiary-color: #ccc14f;
+    --ts-accent-color: #14162a;
 }
 
 html,
