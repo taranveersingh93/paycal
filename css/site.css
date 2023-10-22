@@ -1,0 +1,95 @@
+:root {
+    /* --ts-primary-color: #001e43;
+    --ts-secondary-color: #ff993b; */
+    --ts-light-color: #d0dadd;
+    --ts-dark-color: #1b1b1b;
+    --ts-primary-color: hsl(210, 17%, 18%);
+    --ts-secondary-color: hsl(210, 17%, 95%);
+    --ts-tertiary-color: hsl(120, 100%, 15%);
+    --ts-accent-color: hsl(120, 100%, 25%);
+}
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex-grow: 1;
+}
+
+footer {
+    flex-shrink: 0;
+}
+
+footer,
+nav.navbar {
+    background-color: var(--ts-accent-color);
+    color: var(--ts-light-color);
+}
+
+footer .bi {
+    font-size: 2rem;
+    padding-left: 0.5rem;
+    color: var(--ts-light-color);
+    transition: filter .25s ease-in-out;
+}
+
+footer .bi:hover {
+    /* color: var(--ts-secondary-color); */
+    filter: brightness(1.4);
+}
+
+.devicons {
+    font-size: 3rem;
+}
+
+.bi-check-square-fill {
+    color: var(--ts-primary-color);
+}
+
+.app-logo {
+    max-width: 350px;
+    border-radius: 12px;
+}
+
+:not(pre)>code[class*="language-"],
+pre[class*="language-"] {
+    background: var(--ts-primary-color);
+}
+
+.btn-primary {
+    --bs-btn-bg: var(--ts-accent-color);
+    --bs-btn-border-color: var(--ts-primary-color);
+    --bs-btn-hover-bg: var(--ts-tertiary-color);
+    --bs-btn-hover-border-color: var(--ts-tertiary-color);
+    --bs-btn-active-bg: var(--ts-tertiary-color);
+    --bs-btn-disabled-bg: var(--ts-primary-color);
+    --bs-btn-disabled-border-color: var(--ts-primary-color);
+}
+
+.btn-outline-primary {
+    --bs-btn-color: var(--ts-primary-color);
+    --bs-btn-border-color: var(--ts-primary-color);
+    --bs-btn-hover-bg: var(--ts-accent-color);
+    --bs-btn-hover-border-color: var(--ts-primary-color);
+    --bs-btn-active-bg: var(--ts-primary-color);
+    --bs-btn-active-border-color: var(--ts-primary-color);
+    --bs-btn-disabled-color: var(--ts-primary-color);
+    --bs-btn-disabled-border-color: var(--ts-primary-color);
+}
+
+.navbar-nav {
+    --bs-nav-link-hover-color: white;
+}
+
+@media (min-width: 576px) { 
+    .app-logo {
+        max-width: 400px;
+    }
+ }
