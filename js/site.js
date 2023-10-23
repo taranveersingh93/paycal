@@ -59,8 +59,6 @@ const calculatePayments = summary => {
         
         tableData.push(breakdown);
     }
-
-    // return tableData;
 }
 
 const displayPayments = payments => {
