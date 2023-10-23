@@ -108,6 +108,9 @@ const calculateSummary = entries => {
         summary.downPayment = minimumCost - summary.totalCost;
         summary.principal = loanAmount - summary.downPayment;
         summary.interest = summary.totalCost - summary.principal;
+    } else {
+        const alertMessage = `You just need a minimum payment of ${minimumPayment}$. To instead opt for ${targetPayment}$, consider reducing the term length.`
+        showAlert(alertMessage,"Good News", "success")
     }
     return summary; 
 }
@@ -178,24 +181,24 @@ const validateEntries = entries => {
     const targetOk = Number.isInteger(targetPayment) || targetPayment == "";
     
     if (!loanOk) {
-        showError('Please enter a valid loan amount.');
+        showError('Please enter a valid loan amount.', "Oops", "error");
     } else if (!termOk) {
-        showError('Please enter a valid term.');
+        showError('Please enter a valid term.', "Oops", "error");
     } else if (!interestOk) {
-        showError('Please enter a valid interest rate.');
+        showError('Please enter a valid interest rate.', "Oops", "error");
     } else if (!targetOk) {
-        showError('Please enter a valid target rate.');
+        showError('Please enter a valid target rate.', "Oops", "error");
     } else {
         return true;
     }
 }
 
-const showError = error => {
+const showAlert = (message, heading, type) => {
     Swal.fire({
         backdrop: false,
-        title: 'Oops!',
-        text: error,
-        icon: 'error',
+        title: heading,
+        text: message,
+        icon: type,
         confirmButtonColor: '#253439'
     })
 }
