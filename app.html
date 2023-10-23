@@ -64,31 +64,72 @@
 		<main class="container py-3">
 			<h1 class="display-5 text-center">PayCal</h1>
 			<p class="text-center fs-3 lead">Make the best decision for yourself by generating different payment plans.</p>
-			<div class="row p-3">
-				<div class="col-12 col-lg-4 border border-1 border-secondary-subtle">
-					<form action="#" class="p-3 d-flex align-items-center flex-column">
+			<div class="row p-3 g-3">
+				<div class="col-12 col-lg-4">
+					<form
+						onsubmit="processForm(event)"
+						action="#"
+						class="p-3 d-flex align-items-center flex-column border border-1 border-secondary-subtle input-form"
+					>
 						<div class="input-container p-1 d-flex flex-column flex-sm-row justify-content-between align-items-center">
 							<label for="formLoan" class="form-label">Loan Amount</label>
-							<input type="number" placeholder="Loan Amount" id="formLoan" name="formLoan" />
+							<input type="number" step=".01" placeholder="Loan Amount" id="loanAmount" name="loanAmount" required />
 						</div>
 						<div class="input-container p-1 d-flex flex-column flex-sm-row justify-content-between align-items-center">
 							<label for="formTerm" class="form-label">Term (months)</label>
-							<input type="number" placeholder="Terms" id="formTerm" name="formTerm" />
+							<input type="number" placeholder="Term" id="formTerm" name="termLength" required />
 						</div>
 						<div class="input-container p-1 d-flex flex-column flex-sm-row justify-content-between align-items-center">
 							<label for="formInterest" class="form-label">Interest Rate</label>
-							<input type="number" placeholder="Interest Rate" id="formInterest" name="formInterest" />
+							<input
+								type="number"
+								step=".01"
+								placeholder="Interest Rate"
+								id="formInterest"
+								name="interestRate"
+								required
+							/>
 						</div>
 						<div class="input-container p-1 d-flex flex-column justify-content-between align-items-center">
 							<label for="formTargetPayment" class="form-label">Target Monthly Payment</label>
-							<input type="number" placeholder="(Optional)" class="" id="formTargetPayment" name="formTargetPayment" />
+							<input
+								type="number"
+								step=".01"
+								placeholder="(Optional)"
+								value=""
+								class=""
+								id="formTargetPayment"
+								name="targetPayment"
+							/>
 						</div>
 						<div class="text-end d-flex flex-column align-items-center justify-content-end py-3">
-							<button id="btnSubmit" class="btn btn-primary" type="button">Calculate Payments</button>
+							<button id="btnSubmit" class="btn btn-primary" type="submit">Calculate Payments</button>
 						</div>
 					</form>
 				</div>
-				<div class="col-12 col-lg-8 border border-1 border-secondary-subtle"></div>
+				<div class="col-12 col-lg-8">
+					<div
+						id="detailsSection"
+						class="p-3 border border-1 border-secondary-subtle d-flex flex-column justify-content-evenly h-100"
+					>
+						<img class="img-fluid opacity-50" src="/img/paycal wallet.svg" style="max-height: 10rem" />
+					</div>
+				</div>
+				<div class="col-12 table-responsive">
+					<table class="table table-striped border">
+						<thead class="table-green text-nowrap">
+							<tr>
+								<th>Month</th>
+								<th>Payment</th>
+								<th>Principal</th>
+								<th>Interest</th>
+								<th>Total Interest</th>
+								<th>Balance</th>
+							</tr>
+						</thead>
+						<tbody id="paymentsTable"></tbody>
+					</table>
+				</div>
 			</div>
 		</main>
 
@@ -110,6 +151,39 @@
 			</div>
 		</footer>
 
+		<template id="tableRowTemplate">
+			<tr>
+				<td class="table-month"></td>
+				<td class="table-payment"></td>
+				<td class="table-principal"></td>
+				<td class="table-interest"></td>
+				<td class="table-total-interest"></td>
+				<td class="table-balance"></td>
+			</tr>
+		</template>
+
+		<template id="detailsTemplate">
+			<p class="p-2 display-6 text-center mb-0 payment-headline">Your Monthly Payments</p>
+			<p class="display-6 text-center fw-bold mb-0 payment-headline-amount mb-3">$500</p>
+			<div class="pay-details d-flex align-items-center flex-column">
+				<div class="w-75 my-1 pay-detail d-flex align-items-center justify-content-between">
+					<span id="principalText"><strong>Total principal</strong></span>
+					<span id="principalAmount">$25,000.00</span>
+				</div>
+				<div class="w-75 my-1 pay-detail d-flex align-items-center justify-content-between">
+					<span id="interestText"><strong>Total Interest</strong></span>
+					<span id="interestAmount">$25,000.00</span>
+				</div>
+				<div class="w-75 my-1 pay-detail d-flex align-items-center justify-content-between">
+					<span id="costText"><strong>Total Cost</strong></span>
+					<span id="costAmount">$25,000.00</span>
+				</div>
+				<div class="w-75 my-1 pay-detail d-flex align-items-center justify-content-between">
+					<span id="finalText"><strong>Downpayment</strong></span>
+					<span id="finalAmount">$25,000.00</span>
+				</div>
+			</div>
+		</template>
 		<script
 			src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
 			integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
