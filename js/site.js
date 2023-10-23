@@ -21,6 +21,7 @@ const calculatePayments = summary => {
     let remainingPrincipal = principal;
     let totalInterest = 0;
     const tableData = [];
+    let lastPayment = false;
 
     for (let i = 0; i < termLength; i++) {
         const breakdown = {
@@ -36,15 +37,30 @@ const calculatePayments = summary => {
         breakdown.interest = (interestRate/1200) * remainingPrincipal;
         totalInterest += breakdown.interest;
         breakdown.totalInterest = totalInterest;
-        breakdown.payment = Number(monthlyPayment);
-        breakdown.principal = monthlyPayment - breakdown.interest;
+        
+        if (lastPayment) {
+            breakdown.balance = remainingPrincipal;
+            breakdown.principal = breakdown.balance;
+            breakdown.payment = breakdown.principal + breakdown.interest;    
+            remainingPrincipal -= breakdown.principal;
+            breakdown.balance = remainingPrincipal;
+            tableData.push(breakdown);
+            return tableData
+        }
+        
+        breakdown.payment = monthlyPayment;
+        breakdown.principal = breakdown.payment - breakdown.interest;
         remainingPrincipal -= breakdown.principal;
         breakdown.balance = remainingPrincipal;
-
+        
+        if (breakdown.balance < breakdown.principal) {
+            lastPayment = true;
+        }
+        
         tableData.push(breakdown);
     }
 
-    return tableData;
+    // return tableData;
 }
 
 const displayPayments = payments => {
@@ -94,22 +110,22 @@ const calculateSummary = entries => {
         interestRate
     };
 
-    const minimumPayment = ((loanAmount * (interestRate/1200)) / (1 - (1 + interestRate/1200) ** (-1*termLength))).toFixed(2);
+    const minimumPayment = ((loanAmount * (interestRate/1200)) / (1 - (1 + interestRate/1200) ** (-1*termLength)));
 
     if (!targetPayment) {
-        summary.monthlyPayment = minimumPayment;
+        summary.monthlyPayment = Number(minimumPayment);
         summary.principal = loanAmount;
         summary.totalCost = (summary.monthlyPayment * termLength);
         summary.interest = (summary.totalCost - summary.principal);
-    } else if (minimumPayment > targetPayment) {
-        summary.monthlyPayment = targetPayment;
+    } else if (minimumPayment > Number(targetPayment)) {
+        summary.monthlyPayment = Number(targetPayment);
         const minimumCost = minimumPayment * termLength;
         summary.totalCost = targetPayment * termLength;
         summary.downPayment = minimumCost - summary.totalCost;
         summary.principal = loanAmount - summary.downPayment;
         summary.interest = summary.totalCost - summary.principal;
     } else {
-        const alertMessage = `You just need a minimum payment of ${minimumPayment}$. To instead opt for ${targetPayment}$, consider reducing the term length.`
+        const alertMessage = `You just need a minimum payment of ${minimumPayment.toFixed(2)}$. To instead opt for ${targetPayment.toFixed(2)}$, consider reducing the term length.`
         showAlert(alertMessage,"Good News", "success")
     }
     return summary; 
