@@ -115,19 +115,10 @@
 						<img class="img-fluid opacity-50" src="/img/paycal wallet.svg" style="max-height: 10rem" />
 					</div>
 				</div>
-				<div class="col-12 table-responsive">
-					<table class="table table-striped border">
-						<thead class="table-green text-nowrap">
-							<tr>
-								<th>Month</th>
-								<th>Payment</th>
-								<th>Principal</th>
-								<th>Interest</th>
-								<th>Total Interest</th>
-								<th>Balance</th>
-							</tr>
-						</thead>
-						<tbody id="paymentsTable"></tbody>
+				<div class="col-12 table-responsive" id="paymentsTable">
+					<table class="table table-striped table-bordered border">
+						<thead class="table-green text-nowrap"></thead>
+						<tbody></tbody>
 					</table>
 				</div>
 			</div>
@@ -162,8 +153,19 @@
 			</tr>
 		</template>
 
+		<template id="tableHeadingTemplate">
+			<tr>
+				<th>Month</th>
+				<th>Payment</th>
+				<th>Principal</th>
+				<th>Interest</th>
+				<th>Total Interest</th>
+				<th>Balance</th>
+			</tr>
+		</template>
+
 		<template id="detailsTemplate">
-			<p class="p-2 display-6 text-center mb-0 payment-headline">Your Monthly Payments</p>
+			<p class="p-2 display-6 text-center mb-0 payment-headline">Your Monthly Payments:</p>
 			<p class="display-6 text-center fw-bold mb-0 payment-headline-amount mb-3">$500</p>
 			<div class="pay-details d-flex align-items-center flex-column">
 				<div class="w-75 my-1 pay-detail d-flex align-items-center justify-content-between">
