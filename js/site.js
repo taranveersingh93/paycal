@@ -75,23 +75,23 @@ const displayPayments = payments => {
     const tableBody = table.querySelector('tbody');
     const rowTemplate = document.getElementById('tableRowTemplate');
     tableBody.innerHTML = '';
+
     for (let i = 0; i < payments.length; i++) {
         const paymentObj = payments[i];
         const {month, payment, principal, interest, totalInterest, balance} = paymentObj;
         const rowContent  = rowTemplate.content.cloneNode(true);
-        const monthElement = rowContent.querySelector('.table-month');
-        const paymentElement = rowContent.querySelector('.table-payment');
-        const principalElement = rowContent.querySelector('.table-principal');
-        const totalInterestElement = rowContent.querySelector('.table-total-interest');
-        const interestElement = rowContent.querySelector('.table-interest');
-        const balanceElement = rowContent.querySelector('.table-balance');
-        monthElement.innerText = month;
-        paymentElement.innerText = `$${payment.toFixed(2)}`;
-        principalElement.innerText = `$${principal.toFixed(2)}`;
-        interestElement.innerText = `$${interest.toFixed(2)}`;
-        totalInterest.innerText = `$${totalInterest.toFixed(2)}`;
-        balanceElement.innerText = `$${balance.toFixed(2)}`;
-        totalInterestElement.innerText = `$${totalInterest.toFixed(2)}`;
+        const formatOptions = {
+            style: "currency",
+            currency: "USD"
+        };
+        
+        const tableCells = rowContent.querySelectorAll('td');
+        tableCells[0].textContent = month;
+        tableCells[1].textContent = payment.toLocaleString('en-US', formatOptions);
+        tableCells[2].textContent = principal.toLocaleString('en-US', formatOptions);
+        tableCells[3].textContent = interest.toLocaleString('en-US', formatOptions);
+        tableCells[4].textContent = totalInterest.toLocaleString('en-US', formatOptions);
+        tableCells[5].textContent = balance.toLocaleString('en-US', formatOptions);
 
         tableBody.appendChild(rowContent);
     }
