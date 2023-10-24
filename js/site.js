@@ -59,6 +59,7 @@ const calculatePayments = summary => {
         
         tableData.push(breakdown);
     }
+    return tableData;
 }
 
 const displayPayments = payments => {
@@ -123,7 +124,7 @@ const calculateSummary = entries => {
         summary.principal = loanAmount - summary.downPayment;
         summary.interest = summary.totalCost - summary.principal;
     } else {
-        const alertMessage = `You just need a minimum payment of ${minimumPayment.toFixed(2)}$. To instead opt for ${targetPayment.toFixed(2)}$, consider reducing the term length.`
+        const alertMessage = `You won't need to pay any downpayment at any amount above ${minimumPayment.toFixed(2)}$. To still opt for ${targetPayment.toFixed(2)}$, consider reducing the term length.`
         showAlert(alertMessage,"Good News", "success")
     }
     return summary; 
