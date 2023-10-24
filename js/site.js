@@ -128,6 +128,9 @@ const calculateSummary = entries => {
     } else {
         const alertMessage = `You won't need to pay any downpayment at any amount above ${minimumPayment.toFixed(2)}$. To still opt for ${targetPayment.toFixed(2)}$, consider reducing the term length.`
         showAlert(alertMessage,"Good News", "success");
+        clearTable();
+        clearSummary();
+        insertLogo();
         return;
     }
     return summary; 
@@ -135,8 +138,7 @@ const calculateSummary = entries => {
 
 const displaySummary = summary => {
     const {monthlyPayment, principal, interest, totalCost, downPayment} = summary;
-    const detailsSection = document.getElementById('detailsSection');
-    detailsSection.innerHTML = '';
+    clearSummary()
     const detailsTemplate = document.getElementById('detailsTemplate');
     const detailsElement = detailsTemplate.content.cloneNode(true);
     const paymentAmount = detailsElement.querySelector('.payment-headline-amount');
@@ -155,6 +157,24 @@ const displaySummary = summary => {
     finalAmount.innerText = downPayment.toLocaleString('en-US', formatOptions);
     detailsSection.appendChild(detailsElement);
     
+}
+
+const clearSummary = () => {
+    const detailsSection = document.getElementById('detailsSection');
+    detailsSection.innerHTML = '';
+}
+
+const insertLogo = () => {
+    const detailsSection = document.getElementById('detailsSection');
+    detailsSection.innerHTML = '<img class="img-fluid opacity-50" src="/img/paycal wallet.svg" style="max-height: 10rem" />';
+}
+
+const clearTable = () => {
+    const table = document.getElementById('paymentsTable');
+    const tableHeading = table.querySelector('thead');
+    const tableBody = table.querySelector('tbody');
+    tableHeading.innerHTML = '';
+    tableBody.innerHTML = '';
 }
 
 const convertToNumbers = entries => {
