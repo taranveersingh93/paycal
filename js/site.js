@@ -142,11 +142,15 @@ const displaySummary = summary => {
     const interestAmount = detailsElement.getElementById('interestAmount');
     const costAmount = detailsElement.getElementById('costAmount');
     const finalAmount = detailsElement.getElementById('finalAmount');
-    paymentAmount.innerText = `$${monthlyPayment.toLocaleString()}`;
-    principalAmount.innerText = `$${principal.toLocaleString()}`;
-    interestAmount.innerText = `$${interest.toLocaleString()}`;
-    costAmount.innerText = `$${totalCost.toLocaleString()}`;
-    finalAmount.innerText = `$${downPayment.toLocaleString()}`;
+    const formatOptions = {
+        style: "currency",
+        currency: "USD"
+    };
+    paymentAmount.innerText = monthlyPayment.toLocaleString('en-US', formatOptions);
+    principalAmount.innerText = principal.toLocaleString('en-US', formatOptions);
+    interestAmount.innerText = interest.toLocaleString('en-US', formatOptions);
+    costAmount.innerText = totalCost.toLocaleString('en-US', formatOptions);
+    finalAmount.innerText = downPayment.toLocaleString('en-US', formatOptions);
     detailsSection.appendChild(detailsElement);
 }
 
