@@ -172,15 +172,27 @@ const validateEntries = entries => {
     const termOk = Number.isInteger(termLength) && termLength > 0;
     const interestOk = !isNaN(interestRate) && interestRate > 0;
     const targetOk = Number.isInteger(targetPayment) || targetPayment == "";
+    const shortTerm = termLength < 12;
+    const rateLow = interestRate < 1;
+    const rateHigh = interestRate > 14;
     
     if (!loanOk) {
-        showError('Please enter a valid loan amount.', "Oops", "error");
+        showAlert('Please enter a valid loan amount.', "Oops", "error");
     } else if (!termOk) {
-        showError('Please enter a valid term.', "Oops", "error");
+        showAlert('Please enter a valid term.', "Oops", "error");
     } else if (!interestOk) {
-        showError('Please enter a valid interest rate.', "Oops", "error");
+        showAlert('Please enter a valid interest rate.', "Oops", "error");
     } else if (!targetOk) {
-        showError('Please enter a valid target rate.', "Oops", "error");
+        showAlert('Please enter a valid target rate.', "Oops", "error");
+    } else if (shortTerm) {
+        showAlert("Did you enter the loan term in months?", "Just to Confirm", "warning")
+        return true;
+    } else if (rateLow) {
+        showAlert("Please confirm that you have not converted the interest rate to a decimal.", "Just to Confirm", "warning")
+        return true;
+    } else if (rateHigh) {
+        showAlert("We noticed a double digit interest rate. Please confirm if it's correct.", "Just to Confirm", "warning")
+        return true;
     } else {
         return true;
     }
