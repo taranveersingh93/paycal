@@ -8,12 +8,7 @@ const processForm = (event) => {
     let summary = calculateSummary(formEntries);
     let payments = calculatePayments(summary);
     displayPayments(payments);
-
-    if (formOk && formEntries.targetPayment) {
-       displayDownPaymentSummary(summary);
-    } else if (formOk) {
-       displaySummary(summary);
-    }
+    displaySummary(summary);
 }
 
 const calculatePayments = summary => {
@@ -132,29 +127,6 @@ const calculateSummary = entries => {
         showAlert(alertMessage,"Good News", "success")
     }
     return summary; 
-}
-
-const displayDownPaymentSummary = summary => {
-    const {monthlyPayment, principal, interest, totalCost, downPayment} = summary;
-    const detailsSection = document.getElementById('detailsSection');
-    detailsSection.innerHTML = '';
-    const detailsTemplate = document.getElementById('detailsTemplate');
-    const detailsElement = detailsTemplate.content.cloneNode(true);
-    const headline = detailsElement.querySelector('.payment-headline');
-    const headAmount = detailsElement.querySelector('.payment-headline-amount');
-    const principalAmount = detailsElement.getElementById('principalAmount');
-    const interestAmount = detailsElement.getElementById('interestAmount');
-    const costAmount = detailsElement.getElementById('costAmount');
-    const finalAmount = detailsElement.getElementById('finalAmount');
-    const finalText = detailsElement.getElementById('finalText');
-    headline.innerText = "Your Downpayment:"
-    headAmount.innerText = `$${downPayment.toLocaleString()}`;
-    principalAmount.innerText = `$${principal.toLocaleString()}`;
-    interestAmount.innerText = `$${interest.toLocaleString()}`;
-    costAmount.innerText = `$${totalCost.toLocaleString()}`;
-    finalAmount.innerText = `$${monthlyPayment.toLocaleString()}`;
-    finalText.innerHTML = '<strong>Monthly Payment</strong>'
-    detailsSection.appendChild(detailsElement);
 }
 
 const displaySummary = summary => {
