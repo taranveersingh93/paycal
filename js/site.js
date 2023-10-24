@@ -56,6 +56,10 @@ const calculatePayments = summary => {
         if (breakdown.balance < breakdown.principal) {
             lastPayment = true;
         }
+
+        if (breakdown.balance <= 0) {
+            breakdown.balance = 0;
+        }
         
         tableData.push(breakdown);
     }
@@ -85,12 +89,12 @@ const displayPayments = payments => {
         const interestElement = rowContent.querySelector('.table-interest');
         const balanceElement = rowContent.querySelector('.table-balance');
         monthElement.innerText = month;
-        paymentElement.innerText = payment.toFixed(2);
-        principalElement.innerText = principal.toFixed(2);
-        interestElement.innerText = interest.toFixed(2);
-        totalInterest.innerText = totalInterest.toFixed(2);
-        balanceElement.innerText = balance.toFixed(2);
-        totalInterestElement.innerText = totalInterest.toFixed(2);
+        paymentElement.innerText = `$${payment.toFixed(2)}`;
+        principalElement.innerText = `$${principal.toFixed(2)}`;
+        interestElement.innerText = `$${interest.toFixed(2)}`;
+        totalInterest.innerText = `$${totalInterest.toFixed(2)}`;
+        balanceElement.innerText = `$${balance.toFixed(2)}`;
+        totalInterestElement.innerText = `$${totalInterest.toFixed(2)}`;
 
         tableBody.appendChild(rowContent);
     }
