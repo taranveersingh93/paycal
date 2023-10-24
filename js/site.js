@@ -10,7 +10,7 @@ const processForm = (event) => {
     let payments = calculatePayments(summary);
     displayPayments(payments);
     displaySummary(summary);
-    detailsSection.scrollIntoView();
+    setTimeout(() => {detailsSection.scrollIntoView()}, 900);
 }
 
 const calculatePayments = summary => {
