@@ -175,6 +175,7 @@ const validateEntries = entries => {
     const shortTerm = termLength < 12;
     const rateLow = interestRate < 1;
     const rateHigh = interestRate > 14;
+    const lowAmount = loanAmount < 2000;
     
     if (!loanOk) {
         showAlert('Please enter a valid loan amount.', "Oops", "error");
@@ -192,6 +193,9 @@ const validateEntries = entries => {
         return true;
     } else if (rateHigh) {
         showAlert("We noticed a double digit interest rate. Please confirm if it's correct.", "Just to Confirm", "warning")
+        return true;
+    } else if (lowAmount) {
+        showAlert("Kindly confirm that you've entered the right figure for the loan amount?", "Just to Confirm", "warning");
         return true;
     } else {
         return true;
