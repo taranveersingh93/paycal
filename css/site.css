@@ -88,17 +88,10 @@ pre[class*="language-"] {
     --bs-nav-link-hover-color: white;
 }
 
-.input-container {
-    width: 20rem;
-}
-
 
 @media (min-width: 576px) { 
     .app-logo {
         max-width: 400px;
-    }
-    #formTargetPayment {
-        width: 100%;
     }
  }
 
@@ -106,10 +99,6 @@ pre[class*="language-"] {
  }
 
 @media (min-width: 992px) { 
-    .input-container input {
-        width: 50%;
-    }
-
     .input-container {
         width: 100%;
     }

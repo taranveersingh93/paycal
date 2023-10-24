@@ -71,17 +71,26 @@
 						action="#"
 						class="p-3 d-flex align-items-center flex-column border border-1 border-secondary-subtle input-form"
 					>
-						<div class="input-container p-1 d-flex flex-column flex-sm-row justify-content-between align-items-center">
-							<label for="formLoan" class="form-label">Loan Amount</label>
-							<input type="number" step=".01" placeholder="Loan Amount" id="loanAmount" name="loanAmount" required />
+						<div class="input-container p-1 d-flex flex-column justify-content-between align-items-center">
+							<label for="formLoan" class="form-label">Loan Amount ($)</label>
+							<input
+								class="form-control"
+								type="number"
+								step=".01"
+								placeholder="Loan Amount"
+								id="loanAmount"
+								name="loanAmount"
+								required
+							/>
 						</div>
-						<div class="input-container p-1 d-flex flex-column flex-sm-row justify-content-between align-items-center">
+						<div class="input-container p-1 d-flex flex-column justify-content-between align-items-center">
 							<label for="formTerm" class="form-label">Term (months)</label>
-							<input type="number" placeholder="Term" id="formTerm" name="termLength" required />
+							<input class="form-control" type="number" placeholder="Term" id="formTerm" name="termLength" required />
 						</div>
-						<div class="input-container p-1 d-flex flex-column flex-sm-row justify-content-between align-items-center">
+						<div class="input-container p-1 d-flex flex-column justify-content-between align-items-center">
 							<label for="formInterest" class="form-label">Annual Interest Rate (%)</label>
 							<input
+								class="form-control"
 								type="number"
 								step=".01"
 								placeholder="Interest Rate"
@@ -91,13 +100,13 @@
 							/>
 						</div>
 						<div class="input-container p-1 d-flex flex-column justify-content-between align-items-center">
-							<label for="formTargetPayment" class="form-label">Target Monthly Payment</label>
+							<label for="formTargetPayment" class="form-label">Target Monthly Payment ($)</label>
 							<input
 								type="number"
 								step=".01"
 								placeholder="(Optional)"
 								value=""
-								class=""
+								class="form-control"
 								id="formTargetPayment"
 								name="targetPayment"
 							/>
