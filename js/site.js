@@ -1,7 +1,6 @@
 const processForm = (event) => {
     event.preventDefault();
     const detailsSection = document.getElementById('detailsSection');
-    setTimeout(() => {detailsSection.scrollIntoView()}, 2000);
     const inputForm = document.querySelector(".input-form");
     const parsedData = new FormData(inputForm);
     let formEntries = Object.fromEntries(parsedData.entries());
@@ -11,6 +10,7 @@ const processForm = (event) => {
     let payments = calculatePayments(summary);
     displayPayments(payments);
     displaySummary(summary);
+    detailsSection.scrollIntoView();
 }
 
 const calculatePayments = summary => {
