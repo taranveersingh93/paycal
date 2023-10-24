@@ -7,60 +7,62 @@ const processForm = (event) => {
     formEntries = convertToNumbers(formEntries);
     const formOk = validateEntries(formEntries);
     let summary = calculateSummary(formEntries);
-    let payments = calculatePayments(summary);
-    displayPayments(payments);
-    displaySummary(summary);
+    if (summary) {
+        let payments = calculatePayments(summary);
+        displayPayments(payments);
+        displaySummary(summary);
+    }
     setTimeout(() => {detailsSection.scrollIntoView()});
 }
 
 const calculatePayments = summary => {
-    const {monthlyPayment, interestRate, totalCost, termLength, principal} = summary;
-    let remainingPrincipal = principal;
-    let totalInterest = 0;
-    const tableData = [];
-    let lastPayment = false;
-
-    for (let i = 0; i < termLength; i++) {
-        const breakdown = {
-            month: 0,
-            payment: 0,
-            principal: 0,
-            interest: 0,
-            totalInterest: 0,
-            balance: 0
-        }
-
-        breakdown.month = i + 1;
-        breakdown.interest = (interestRate/1200) * remainingPrincipal;
-        totalInterest += breakdown.interest;
-        breakdown.totalInterest = totalInterest;
-        
-        if (lastPayment) {
-            breakdown.balance = remainingPrincipal;
-            breakdown.principal = breakdown.balance;
-            breakdown.payment = breakdown.principal + breakdown.interest;    
+        const {monthlyPayment, interestRate, totalCost, termLength, principal} = summary;
+        let remainingPrincipal = principal;
+        let totalInterest = 0;
+        const tableData = [];
+        let lastPayment = false;
+    
+        for (let i = 0; i < termLength; i++) {
+            const breakdown = {
+                month: 0,
+                payment: 0,
+                principal: 0,
+                interest: 0,
+                totalInterest: 0,
+                balance: 0
+            }
+    
+            breakdown.month = i + 1;
+            breakdown.interest = (interestRate/1200) * remainingPrincipal;
+            totalInterest += breakdown.interest;
+            breakdown.totalInterest = totalInterest;
+            
+            if (lastPayment) {
+                breakdown.balance = remainingPrincipal;
+                breakdown.principal = breakdown.balance;
+                breakdown.payment = breakdown.principal + breakdown.interest;    
+                remainingPrincipal -= breakdown.principal;
+                breakdown.balance = remainingPrincipal;
+                tableData.push(breakdown);
+                return tableData
+            }
+            
+            breakdown.payment = monthlyPayment;
+            breakdown.principal = breakdown.payment - breakdown.interest;
             remainingPrincipal -= breakdown.principal;
             breakdown.balance = remainingPrincipal;
+            
+            if (breakdown.balance < breakdown.principal) {
+                lastPayment = true;
+            }
+    
+            if (breakdown.balance <= 0) {
+                breakdown.balance = 0;
+            }
+            
             tableData.push(breakdown);
-            return tableData
         }
-        
-        breakdown.payment = monthlyPayment;
-        breakdown.principal = breakdown.payment - breakdown.interest;
-        remainingPrincipal -= breakdown.principal;
-        breakdown.balance = remainingPrincipal;
-        
-        if (breakdown.balance < breakdown.principal) {
-            lastPayment = true;
-        }
-
-        if (breakdown.balance <= 0) {
-            breakdown.balance = 0;
-        }
-        
-        tableData.push(breakdown);
-    }
-    return tableData;
+        return tableData;
 }
 
 const displayPayments = payments => {
@@ -95,7 +97,6 @@ const displayPayments = payments => {
 
         tableBody.appendChild(rowContent);
     }
-
 }
 
 const calculateSummary = entries => {
@@ -126,7 +127,8 @@ const calculateSummary = entries => {
         summary.interest = summary.totalCost - summary.principal;
     } else {
         const alertMessage = `You won't need to pay any downpayment at any amount above ${minimumPayment.toFixed(2)}$. To still opt for ${targetPayment.toFixed(2)}$, consider reducing the term length.`
-        showAlert(alertMessage,"Good News", "success")
+        showAlert(alertMessage,"Good News", "success");
+        return;
     }
     return summary; 
 }
@@ -152,6 +154,7 @@ const displaySummary = summary => {
     costAmount.innerText = totalCost.toLocaleString('en-US', formatOptions);
     finalAmount.innerText = downPayment.toLocaleString('en-US', formatOptions);
     detailsSection.appendChild(detailsElement);
+    
 }
 
 const convertToNumbers = entries => {
