@@ -1,5 +1,7 @@
 const processForm = (event) => {
     event.preventDefault();
+    const detailsSection = document.getElementById('detailsSection');
+    detailsSection.scrollIntoView();
     const inputForm = document.querySelector(".input-form");
     const parsedData = new FormData(inputForm);
     let formEntries = Object.fromEntries(parsedData.entries());
