@@ -313,8 +313,90 @@ const showAlert = (message, heading, type) => {
 					</pre>
 				</div>
 				<div class="col-12 col-lg-4">
-					<p>The code is structured in one function <code>displayMessage</code>.</p>
-					<p><code>displayMessage</code> displayes a sweetAlert when the button is pressed.</p>
+					<p class="display-6 text-center">Abstract</p>
+					<p>For this app: I had my tasks divided up into the following pointers:</p>
+					<ul>
+						<li>Get the values that the user entered and convert them to the type Number.</li>
+						<li>Validate the data. Display a helpful error or a warning depending on the user input.</li>
+						<li>If the data is valid, calculate the values for the summary section.</li>
+						<li>Calculate the payments for the table.</li>
+						<li>Display the summary and the payments in the relevant sections.</li>
+					</ul>
+					<p class="display-6 text-center">Calculation Functions</p>
+					<p>The two functions actually doing the calculations are as follows:</p>
+					<p>
+						<strong>calculateSummary(entries)</strong> (line 102): This function takes in a parameter of
+						<code>entries</code>. I destructured the object <code>entries</code> so that I can easily access the
+						properties. I then initialize an object <code>summary</code> which has relevant properties I'd want later in
+						the code. I calculate the <code>minimumPayment</code> which is the monthly payment for a given term and
+						interest rate if there's no downpayment.
+					</p>
+					<p>Then I had 3 different scenarios to consider.</p>
+					<ul>
+						<li>(line 116) If user did not specify a target value.</li>
+						<li>
+							(line 121) If user specified a target payment which is more than the <code>minimumPayment</code>. In other
+							words, a downpayment would be required.
+						</li>
+						<li>
+							(line 128) Finally, if a user specified a target payment which is more than the minimum payment required
+							anyway, a message is displayed informing the user of the same and probing them to alter the term instead.
+							This condition does not continue any calculations/display.
+						</li>
+					</ul>
+					<p>
+						<strong>calculatePayments(summary)</strong> (line 18): This function takes in an object
+						<code>summary</code> to generate all the payments, store them in an array which is returned by the function.
+					</p>
+					<p>
+						For this function, mostly all values of interest were present in the <code>summary</code> object but other
+						than that I also relied on running calculations of <code>totalInterest</code>(line 21) and
+						<code>remainingPrincipal</code>(line 20).
+					</p>
+					<p>
+						This function was pretty much straight forward except for an edge case scenario. If the user opted for a
+						target payment, the final payment could end up being less than the otherwise stated monthly payment. I used
+						the functionally scoped boolean <code>lastPayment</code>. If this was true (line 40), I treat the
+						<code>breakdown</code> object's properties differently. the interest would be reliable as it'd be calculated
+						on the remaining balance only. But the <code>principal</code> would be the same as the
+						<code>balance</code> instead of the regular <code>monthlyPayment - interest</code>. By adding the
+						<code>principal</code> and <code>interest</code>, I calculate the <code>payment</code> for this month. I
+						also reduce the <code>remainingPrincipal</code> variable and assign it to the <code>balance</code> property.
+						Finally I add this breakdown to the <code>tableData</code> array and return it within the codeblock as this
+						is the last payment and may not be the last month of the term so we want to avoid the full loop.
+					</p>
+					<p class="display-6 text-center">Display Functions</p>
+					<p>
+						There's two display functions that I used. <code>displaySummary</code> takes in the return value of
+						<code>calculateSummary</code> whereas <code>displayPayments</code> takes in the return value of
+						<code>calculatePayments</code>. Both functions rely on the template tag. They clone a template tag, fill it
+						up using the data they take in as parameters, and finally append the elements into the DOM.
+					</p>
+					<p class="display-6 text-center">Data Validation</p>
+					<p>I coupled html attributes and JS error handling to ensure I was working with desired data.</p>
+					<ul>
+						<li>
+							In the HTML form, I specified the data types for each input so it ensured that the user did submit
+							acceptable data.
+						</li>
+						<li>
+							Next, I used <code>convertToNumbers</code> function to convert the string values to required data. An
+							optional field like <code>Target Payment</code> could be both an empty string and a number. I ensured that
+							the function allows for both.
+						</li>
+						<li>
+							Then, I passed the data through <code>validateEntries</code> and ensured that the numbers were positive
+							and of the right <code>data type</code>.
+						</li>
+						<li>
+							Additionally, just to help the user, I display alert messages at abnormal inputs like <br />
+							<code>term &lt 12</code>,<br />
+							<code>rate &lt 1</code>, <br /><code>rate &gt 14</code><br />
+							and
+							<code>loanAmount &gt 2000</code>. The payments are still calculated. These just ensure a positive user
+							experience.
+						</li>
+					</ul>
 				</div>
 			</div>
 		</main>
